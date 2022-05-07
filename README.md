@@ -1,5 +1,6 @@
+#ShopBridge App
 
-# This application was built with Angular 5 and Bootstrap 4. 
+This application was built with Angular 5 and Bootstrap 4. 
 
 # Requirements.
 
