@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="text-left mb-2">
+    <button type="submit" class="btn btn-primary" (click)="onNew()">Add New</button>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-condensed" [mfData]="productList | dataFilter : quickFilter"
+      #mf1="mfDataTable" [mfRowsOnPage]="2" [mfSortBy]="'firstName'" [mfSortOrder]="'asc'">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th><mfDefaultSorter by="name">Name</mfDefaultSorter></th>
+          <th><mfDefaultSorter by="description">Description</mfDefaultSorter></th>
+          <th><mfDefaultSorter by="price">Price</mfDefaultSorter></th>
+          <th><mfDefaultSorter by="quantity">Quantity</mfDefaultSorter></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of mf1.data; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ item.name }}</td>
+          <td>{{ item.description }}</td>
+          <td>{{ item.price }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>
+            <button type="button" class="btn btn-info" (click)="onEdit(i)">Edit</button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger" (click)="onDelete(i)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="8">
+            <mfBootstrapPaginator [rowsOnPageSet]="[2,4,8]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <hr>
+  <div *ngIf="showNew">
+    <h4>{{showNew ? 'Add New' : 'Edit'}}</h4>
+    <hr>
+    <form (ngSubmit)="onSave()">
+      <div class="form-group row">
+        <label for="name" class="col-2 col-form-label">Product Name</label>
+        <div class="col-10">
+          <input class="form-control" type="text" [(ngModel)]="productModel.name" id="name" name="name" required>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="description" class="col-2 col-form-label">Description</label>
+        <div class="col-10">
+          <input class="form-control" type="text" [(ngModel)]="productModel.description" name="description" name="description">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="price" class="col-2 col-form-label">Price</label>
+        <div class="col-10">
+          <input class="form-control" type="number" [(ngModel)]="productModel.price" id="price" name="price">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="quantity" class="col-2 col-form-label">Quantity</label>
+        <div class="col-10 dropdown" ngbDropdown myDrop="ngbDropdown">
+          <button type="button" class="btn btn-outline-primary" id="dropdownManual" id="quantity" name="quantity" ngbDropdownToggle>{{productModel.quantity}}</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownManual">
+            <button type="button" class="dropdown-item" *ngFor="let quantity of fixedQuantity" (click)="onChangeQuantity(quantity)">{{quantity}}</button>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success">{{submitType}}</button>
+      <button type="submit" class="btn btn-primary" (click)="onCancel()">Cancel</button>
+    </form>
+  </div>
+</div>
