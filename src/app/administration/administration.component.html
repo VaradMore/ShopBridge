@@ -57,7 +57,7 @@
     </table>
   </div>
   <hr>
-  <div *ngIf="showNew">
+  <div class="mb-4" *ngIf="showNew">
     <h4>{{submitType == "Save" ? 'Add New' : 'Edit'}}</h4>
     <hr>
     <form #productForm="ngForm" (ngSubmit)="onSave()">
