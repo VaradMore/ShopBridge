@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { isNgTemplate } from '@angular/compiler';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { range } from 'rxjs/observable/range';
 import { IProduct } from '../core/interfaces/product.interface';
@@ -18,7 +19,7 @@ class ProductRegistration {
   templateUrl: './administration.component.html',
   styleUrls: ['./administration.component.scss']
 })
-export class AdministrationComponent implements OnInit {
+export class AdministrationComponent implements OnInit, AfterViewChecked {
   
   // It maintains list of Products
   productList: IProduct[] = [];
@@ -39,7 +40,13 @@ export class AdministrationComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.productList = this.adminService.productList;
+    this.productList = this.adminService.getProductList();
+  }
+
+  ngAfterViewChecked() {
+    if (this.showNew) {
+      this.goToBottom();
+    }
   }
 
   // This method associate to New Button.
@@ -56,6 +63,7 @@ export class AdministrationComponent implements OnInit {
   onSave() {
     if (this.submitType === 'Save') {
       // Push product object into product list.
+      this.productModel.id = 'id' + Date.now() + Math.floor(Math.random() * 100);
       this.productList.push(this.productModel);
     } else {
       // Update the existing properties values based on model.
@@ -69,13 +77,11 @@ export class AdministrationComponent implements OnInit {
   }
 
   // This method associate to Edit Button.
-  onEdit(index: number) {
-    // Assign selected table row index.
-    this.selectedRow = index;
+  onEdit(item: IProduct) {
     // Initiate new product.
     this.productModel = new ProductRegistration();
     // Retrieve selected product from list and assign to model.
-    this.productModel = Object.assign({}, this.productList[this.selectedRow]);
+    this.productModel = Object.assign({}, this.productList.find(i => i.id === item.id));
     // Change submitType to Update.
     this.submitType = 'Update';
     // Display product entry section.
@@ -83,9 +89,10 @@ export class AdministrationComponent implements OnInit {
   }
 
   // This method associate to Delete Button.
-  onDelete(index: number) {
+  onDelete(item: IProduct) {
     // Delete the corresponding product entry from the list.
-    this.productList.splice(index, 1);
+    // this.productList.splice(index, 1);
+    this.productList = this.productList.filter(i => i.id !== item.id)
   }
 
   // This method associate toCancel Button.
@@ -98,6 +105,11 @@ export class AdministrationComponent implements OnInit {
   onChangeQuantity(quantity: number) {
     // Assign corresponding selected quantity to model.
     this.productModel.quantity = quantity;
+  }
+
+  // This method takes to bottom of the page.
+  goToBottom(){
+    window.scrollTo(0,document.body.scrollHeight);
   }
 
 }

@@ -4,7 +4,7 @@ import { IProduct } from '../interfaces/product.interface';
 @Injectable()
 export class AdministrationService {
 
-  productList: IProduct[] = [
+  private productList: IProduct[] = [
     { name: 'T-Shirt', description: 'Cotton t-shirt', price: 600, quantity: 10 },
     { name: 'Cap', description: 'Cap Description', price: 300, quantity: 5 },
     { name: 'Jeans', description: 'Skinny Fit', price: 1000, quantity: 7 },
@@ -14,5 +14,13 @@ export class AdministrationService {
     { name: 'Sliders', description: 'Sliders', price: 700, quantity: 4 },
   ];
   constructor() { }
+
+  getProductList(): IProduct[] {
+   this.productList
+    .forEach(i => {
+      i.id = 'id' + Date.now() + Math.floor(Math.random() * 100);
+    });
+    return this.productList;
+  }
 
 }

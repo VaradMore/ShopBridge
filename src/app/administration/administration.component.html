@@ -9,8 +9,14 @@
   </div>
   <div class="table-responsive">
     <table class="table table-striped table-condensed" [mfData]="productList | dataFilter : quickFilter"
-      #mf1="mfDataTable" [mfRowsOnPage]="2" [mfSortBy]="'firstName'" [mfSortOrder]="'asc'">
+      #mf1="mfDataTable" [mfRowsOnPage]="5" [mfSortBy]="'firstName'" [mfSortOrder]="'asc'">
       <thead>
+        <tr *ngIf="productList?.length > 0">
+          <td colspan="7">
+            <strong>{{(productList | dataFilter : quickFilter)?.length}}</strong>
+            <span> items found</span>
+          </td>
+        </tr>
         <tr>
           <th>#</th>
           <th><mfDefaultSorter by="name">Name</mfDefaultSorter></th>
@@ -22,24 +28,29 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of mf1.data; let i = index">
-          <th scope="row">{{ i + 1 }}</th>
+        <tr *ngIf="(productList | dataFilter : quickFilter)?.length === 0">
+          <td colspan="7">
+            <div class="alert alert-info mb mt">No Items Found</div>
+          </td>
+        </tr>
+        <tr *ngFor="let item of mf1.data">
+          <th scope="row">{{ productList.indexOf(item) + 1 }}</th>
           <td>{{ item.name }}</td>
           <td>{{ item.description }}</td>
           <td>{{ item.price }}</td>
           <td>{{ item.quantity }}</td>
           <td>
-            <button type="button" class="btn btn-info" (click)="onEdit(i)">Edit</button>
+            <button type="button" class="btn btn-info" (click)="onEdit(item)">Edit</button>
           </td>
           <td>
-            <button type="button" class="btn btn-danger" (click)="onDelete(i)">Delete</button>
+            <button type="button" class="btn btn-danger" (click)="onDelete(item)">Delete</button>
           </td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="8">
-            <mfBootstrapPaginator [rowsOnPageSet]="[2,4,8]"></mfBootstrapPaginator>
+          <td colspan="7">
+            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
           </td>
         </tr>
       </tfoot>
@@ -47,13 +58,17 @@
   </div>
   <hr>
   <div *ngIf="showNew">
-    <h4>{{showNew ? 'Add New' : 'Edit'}}</h4>
+    <h4>{{submitType == "Save" ? 'Add New' : 'Edit'}}</h4>
     <hr>
-    <form (ngSubmit)="onSave()">
+    <form #productForm="ngForm" (ngSubmit)="onSave()">
       <div class="form-group row">
         <label for="name" class="col-2 col-form-label">Product Name</label>
         <div class="col-10">
-          <input class="form-control" type="text" [(ngModel)]="productModel.name" id="name" name="name" required>
+          <input #name="ngModel" class="form-control" type="text" [(ngModel)]="productModel.name" id="name" name="name" required>
+          <div *ngIf="!name?.valid && (name?.dirty || name?.touched)"
+            class="text-danger">
+            Product Name is required
+          </div>
         </div>
       </div>
       <div class="form-group row">
@@ -65,7 +80,11 @@
       <div class="form-group row">
         <label for="price" class="col-2 col-form-label">Price</label>
         <div class="col-10">
-          <input class="form-control" type="number" [(ngModel)]="productModel.price" id="price" name="price">
+          <input #price="ngModel" class="form-control" type="number" [(ngModel)]="productModel.price" id="price" name="price" required>
+          <div *ngIf="!price?.valid && (price?.dirty || price?.touched)"
+            class="text-danger">
+            Price is required
+          </div>
         </div>
       </div>
       <div class="form-group row">
@@ -77,7 +96,7 @@
           </div>
         </div>
       </div>
-      <button type="submit" class="btn btn-success">{{submitType}}</button>
+      <button type="submit" class="btn btn-success" [disabled]="!productForm.valid">{{submitType}}</button>
       <button type="submit" class="btn btn-primary" (click)="onCancel()">Cancel</button>
     </form>
   </div>
