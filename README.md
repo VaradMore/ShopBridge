@@ -30,6 +30,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Edit/Update Product
 <img width="578" alt="image" src="https://user-images.githubusercontent.com/41999888/167285544-72db1808-e16e-481a-9d7b-b9034be94096.png">
 
-## Validations (Note- Save/Update button will be disabled if invalid)
+## Validations (Note- Save/Update button will be disabled if form is invalid)
 <img width="586" alt="image" src="https://user-images.githubusercontent.com/41999888/167285586-74dbf191-e575-4243-a396-73e8921f6ba2.png">
  
