@@ -18,12 +18,18 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## Running unit tests
+# UI Snapshots
+## Navigation
+<img width="960" alt="image" src="https://user-images.githubusercontent.com/41999888/167285634-a43043f7-5c46-4f18-8d77-47f017373841.png">
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+<img width="942" alt="image" src="https://user-images.githubusercontent.com/41999888/167285676-6e2fb38a-63ec-4109-84e6-49b84c907265.png">
 
-## Running end-to-end tests
+## Product List
+<img width="614" alt="image" src="https://user-images.githubusercontent.com/41999888/167285500-5d27cd1c-d74f-4965-a62c-475f9daa4040.png">
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Edit/Update Product
+<img width="578" alt="image" src="https://user-images.githubusercontent.com/41999888/167285544-72db1808-e16e-481a-9d7b-b9034be94096.png">
 
-
+## Validations (Note-Save/Update will be disabled if invalid)
+<img width="586" alt="image" src="https://user-images.githubusercontent.com/41999888/167285586-74dbf191-e575-4243-a396-73e8921f6ba2.png">
+ 
