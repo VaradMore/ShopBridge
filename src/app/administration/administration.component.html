@@ -2,6 +2,11 @@
   <div class="text-left mb-2">
     <button type="submit" class="btn btn-primary" (click)="onNew()">Add New</button>
   </div>
+  <div class="row mb-1">
+    <div class="col-3">
+      <input class="form-control" type="text" placeholder="Filter" [(ngModel)]="quickFilter" />
+    </div>
+  </div>
   <div class="table-responsive">
     <table class="table table-striped table-condensed" [mfData]="productList | dataFilter : quickFilter"
       #mf1="mfDataTable" [mfRowsOnPage]="2" [mfSortBy]="'firstName'" [mfSortOrder]="'asc'">
